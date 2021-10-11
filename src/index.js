@@ -82,7 +82,31 @@ const createPopup = (meal) => {
           <li>Category: Rice</li>
           </ul>
       </div>
-    </div>`;
+    </div>
+    <div class="comments-container">
+  <div class="comments-div">
+    <h3>Comments (3)</h3>
+  </div>
+  <h3>Add a comment</h3>
+  <form>
+    <div class="input-group">
+      <input type="text" class="nameInput" placeholder="Your name" />
+    </div>
+    <div class="input-group">
+      <textarea
+        name=""
+        id="commentInput"
+        cols="30"
+        rows="10"
+        placeholder="Your insights"
+      ></textarea>
+    </div>
+    <div class=''button-div>
+    <button type='submit' class='submit-comment-btn'> Comment </button>
+    </div>
+  </form>
+</div>
+`;
   popupSection.innerHTML = popupMarkup;
   popupSection.style.display = 'block';
   main.style.display = 'none';
