@@ -16,14 +16,6 @@ header {
   background-color: #fff;
 }
 
-.visible{
-  display: block;
-}
-
-.invisible{
-  display: none;
-}
-
 .logo {
   display: flex;
   flex-direction: row;
@@ -96,11 +88,12 @@ button {
   align-self: center;
 }
 .popup-window {
+  background: cyan;
   position: relative;
   width: 65%;
   margin: 0 auto;
   padding: 20px;
-  backdrop-filter: blur(4px);
+  /* display: none; */
 }
 
 .close-menu {
