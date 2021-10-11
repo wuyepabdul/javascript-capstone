@@ -4,3 +4,41 @@
   box-sizing: border-box;
 }
 
+.popup-window {
+  position: relative;
+  width: 65%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.close-menu {
+  font-size: 35px;
+  position: absolute;
+  top: 13px;
+  font-weight: 900;
+  right: -40px;
+}
+
+.popup-window li {
+  list-style: none;
+}
+
+.popup-img-div img {
+  margin-top: 20px;
+  width: 100%;
+  height: 400px;
+}
+
+.popup-details-div {
+  text-align: center;
+}
+
+.popup-details-div h1 {
+  font-size: 50px;
+}
+
+.details-list {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+}
