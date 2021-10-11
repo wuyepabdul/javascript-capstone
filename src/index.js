@@ -35,7 +35,7 @@ const root = document.getElementById('root');
 const main = elementGenerator('main');
 
 for (let i = 1; i <= 12; i += 1) {
-  const meal = elementGenerator('div');
+  const meal = elementGenerator('section');
   const picture = elementGenerator('img', 'image');
   picture.src = Image;
   picture.alt = 'space-image';
@@ -51,7 +51,7 @@ for (let i = 1; i <= 12; i += 1) {
   const like = elementGenerator('p');
   like.textContent = 'like';
 
-  const comments = elementGenerator('button', 'commentBtn');
+  const comments = elementGenerator('button');
   comments.textContent = 'comments';
 
   likeCounter.append(heart, like);
@@ -62,8 +62,6 @@ for (let i = 1; i <= 12; i += 1) {
 
   main.appendChild(meal);
 }
-
-
 
 listOne.appendChild(linkOne);
 listTwo.appendChild(linkTwo);
