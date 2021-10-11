@@ -21,9 +21,9 @@ const createPopup = () => {
     </div>
   </div>`;
 
+  let form = ``
+
   const popupSection = document.querySelector('.popup-window');
   popupSection.innerHTML = popupMarkup;
-  console.log(popupSection);
 };
-
-createPopup();
+// createPopup();

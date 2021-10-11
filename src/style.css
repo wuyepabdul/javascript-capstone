@@ -4,6 +4,18 @@
   box-sizing: border-box;
 }
 
+button {
+  margin-left: 20px;
+  margin-bottom: 30px;
+  padding: 10px 10px;
+  background-color: #fff;
+  border: 2px solid black;
+  box-shadow: 5px 5px 2px 1px black;
+  font-size: 0.8em;
+  cursor: pointer;
+  align-self: center;
+}
+
 .popup-window {
   position: relative;
   width: 65%;
@@ -14,9 +26,10 @@
 .close-menu {
   font-size: 35px;
   position: absolute;
-  top: 13px;
+  top: 33px;
   font-weight: 900;
-  right: -40px;
+  right: -30px;
+  cursor: pointer;
 }
 
 .popup-window li {
@@ -42,3 +55,25 @@
   justify-content: space-between;
   font-size: 20px;
 }
+
+.comments-container h3 {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.comments-container form {
+  width: 70%;
+  min-width: 50%;
+  margin: 0 auto;
+}
+
+.input-group input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.button-div button{
+  margin-left: 0;
+} 
