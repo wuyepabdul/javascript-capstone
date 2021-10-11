@@ -86,7 +86,6 @@ const createPopup = (meal) => {
   popupSection.innerHTML = popupMarkup;
   popupSection.style.display = 'block';
   main.style.display = 'none';
-  console.log(popupSection);
   document.body.appendChild(popupSection);
   const closePopup = document.querySelector('.close-menu');
   closePopup.addEventListener('click', () => {
@@ -109,11 +108,6 @@ const displayPopup = (main) => {
   }
 };
 
-const closePopup = () => {
-  const closeMenu = main.children;
-  //   console.log(closeMenu);
-};
-
 listOne.appendChild(linkOne);
 listTwo.appendChild(linkTwo);
 listThree.appendChild(linkThree);
@@ -127,5 +121,3 @@ header.append(logo, navigation);
 root.append(header, main, footer);
 
 displayPopup(main);
-
-closePopup();

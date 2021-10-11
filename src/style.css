@@ -100,6 +100,7 @@ button {
   width: 65%;
   margin: 0 auto;
   padding: 20px;
+  backdrop-filter: blur(4px);
 }
 
 .close-menu {
