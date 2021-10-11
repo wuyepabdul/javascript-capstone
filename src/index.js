@@ -96,8 +96,10 @@ const createPopup = (meal) => {
 
 const displayPopup = (main) => {
   const divs = main.children;
-  const mealDetails = { title: '', category: '', price: '', details: '' };
-  for (let i = 0; i < divs.length; i +=1) {
+  const mealDetails = 
+  { title: '', category: '', price: '', details: '' };
+  
+  for (let i = 0; i < divs.length; i += 1) {
     const btn = divs[i].children[2];
     btn.addEventListener('click', (e) => {
       const mealTitle = e.target.parentElement.children[1].children[0].textContent;
