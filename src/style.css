@@ -3,3 +3,100 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+body {
+  font-size: large;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  padding: 10px 250px;
+  position: fixed;
+  top: 0;
+  margin-bottom: 50px;
+  background-color: #fff;
+}
+
+.logo {
+  border: 2px solid #000;
+  height: 80px;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 1rem;
+}
+
+nav ul {
+  display: flex;
+  list-style-type: none;
+  margin-left: 10px;
+}
+
+nav ul li {
+  margin-left: 100px;
+}
+
+nav ul li a {
+  color: #000;
+  text-decoration: none;
+}
+
+.meals {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  margin-top: 150px;
+  margin-bottom: 60px;
+}
+
+.image {
+  height: 200px;
+  width: 200px;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.likes {
+  display: flex;
+  flex-direction: row;
+  width: 200px;
+  justify-content: space-between;
+  padding: 20px 10px;
+}
+
+button {
+  margin-left: 20px;
+  margin-bottom: 30px;
+  padding: 10px 10px;
+  background-color: #fff;
+  border: 2px solid black;
+  box-shadow: 5px 5px 2px 1px black;
+  font-size: 0.8em;
+  cursor: pointer;
+  align-self: center;
+}
+
+footer {
+  padding: 20px 100px;
+  border-top: 2px solid black;
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  background-color: #fff;
+  margin-top: 100px;
+}
