@@ -65,7 +65,7 @@ for (let i = 1; i <= 12; i += 1) {
 
 const createPopup = (meal) => {
   const popupSection = elementGenerator('section', 'popup-window invisible');
-  let popupMarkup = ` 
+  const popupMarkup = ` 
     <small class='close-menu'>X</small>   
     <div class='blur-background'> 
       
@@ -97,11 +97,10 @@ const createPopup = (meal) => {
 const displayPopup = (main) => {
   const divs = main.children;
   const mealDetails = { title: '', category: '', price: '', details: '' };
-  for (var i = 0; i < divs.length; i++) {
+  for (let i = 0; i < divs.length; i +=1) {
     const btn = divs[i].children[2];
     btn.addEventListener('click', (e) => {
-      const mealTitle =
-        e.target.parentElement.children[1].children[0].textContent;
+      const mealTitle = e.target.parentElement.children[1].children[0].textContent;
       mealDetails.title = mealTitle;
       createPopup(mealDetails);
     });

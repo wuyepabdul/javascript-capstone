@@ -24,11 +24,7 @@
   "homepage": "https://github.com/wuyepabdul/javascript-capstone#readme",
   "dependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
-    "babel-eslint": "^10.1.0",
     "css-loader": "^6.4.0",
-    "eslint": "^8.0.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.24.2",
     "hint": "^6.1.4",
     "html-webpack-plugin": "^5.3.2",
     "style-loader": "^3.3.0",
@@ -41,6 +37,10 @@
     "webpack-dev-server": "^4.3.1"
   },
   "devDependencies": {
-    "dotenv-webpack": "^7.0.3"
+    "babel-eslint": "^10.1.0",
+    "dotenv-webpack": "^7.0.3",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2"
   }
 }

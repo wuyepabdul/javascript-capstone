@@ -16,11 +16,11 @@ header {
   background-color: #fff;
 }
 
-.visible{
+.visible {
   display: block;
 }
 
-.invisible{
+.invisible {
   display: none;
 }
 
@@ -154,9 +154,9 @@ textarea {
   margin: 10px 0;
 }
 
-.button-div button{
+.button-div button {
   margin-left: 0;
-} 
+}
 
 footer {
   padding: 20px 100px;
