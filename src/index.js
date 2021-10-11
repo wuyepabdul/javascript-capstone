@@ -35,7 +35,7 @@ const root = document.getElementById('root');
 const main = elementGenerator('main');
 
 for (let i = 1; i <= 12; i += 1) {
-  const meal = elementGenerator('section');
+  const meal = elementGenerator('div');
   const picture = elementGenerator('img', 'image');
   picture.src = Image;
   picture.alt = 'space-image';
@@ -51,7 +51,7 @@ for (let i = 1; i <= 12; i += 1) {
   const like = elementGenerator('p');
   like.textContent = 'like';
 
-  const comments = elementGenerator('button');
+  const comments = elementGenerator('button', 'commentBtn');
   comments.textContent = 'comments';
 
   likeCounter.append(heart, like);
@@ -62,6 +62,51 @@ for (let i = 1; i <= 12; i += 1) {
 
   main.appendChild(meal);
 }
+
+const createPopup = (meal) => {
+  const popupSection = elementGenerator('section', 'popup-window invisible');
+  let popupMarkup = ` 
+    <small class='close-menu'>X</small>   
+    <div class='blur-background'> 
+      
+      <div class="popup-img-div"><img class="meal-popup-img" src="${Image}" alt="meal" /></div>
+      <div class="popup-details-div">
+      <h1> ${meal.title} </h1>
+      <div class="details-list">
+          <ul>
+          <li>Category: Rice</li>
+          <li>Category: Rice</li>
+          </ul>
+          <ul>
+          <li>Category: Rice</li>
+          <li>Category: Rice</li>
+          </ul>
+      </div>
+    </div>`;
+  popupSection.innerHTML = popupMarkup;
+  popupSection.style.display = 'block';
+  main.style.display = 'none';
+  document.body.appendChild(popupSection);
+  const closePopup = document.querySelector('.close-menu');
+  closePopup.addEventListener('click', () => {
+    popupSection.remove();
+    main.style.display = 'grid';
+  });
+};
+
+const displayPopup = (main) => {
+  const divs = main.children;
+  const mealDetails = { title: '', category: '', price: '', details: '' };
+  for (var i = 0; i < divs.length; i++) {
+    const btn = divs[i].children[2];
+    btn.addEventListener('click', (e) => {
+      const mealTitle =
+        e.target.parentElement.children[1].children[0].textContent;
+      mealDetails.title = mealTitle;
+      createPopup(mealDetails);
+    });
+  }
+};
 
 listOne.appendChild(linkOne);
 listTwo.appendChild(linkTwo);
@@ -74,3 +119,5 @@ navigation.appendChild(uList);
 header.append(logo, navigation);
 
 root.append(header, main, footer);
+
+displayPopup(main);
