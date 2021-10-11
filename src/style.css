@@ -53,6 +53,7 @@ main {
   grid-template-rows: 1fr 1fr;
   margin-top: 150px;
   margin-bottom: 60px;
+  justify-items: center;
 }
 
 .image {
@@ -76,7 +77,7 @@ section {
 }
 
 button {
-  margin-left: 20px;
+  /* margin-left: 20px; */
   margin-bottom: 30px;
   padding: 10px 10px;
   background-color: #fff;
@@ -86,6 +87,69 @@ button {
   cursor: pointer;
   align-self: center;
 }
+.popup-window {
+  background: cyan;
+  position: relative;
+  width: 65%;
+  margin: 0 auto;
+  padding: 20px;
+  /* display: none; */
+}
+
+.close-menu {
+  font-size: 35px;
+  position: absolute;
+  top: 33px;
+  font-weight: 900;
+  right: -30px;
+  cursor: pointer;
+}
+
+.popup-window li {
+  list-style: none;
+}
+
+.popup-img-div img {
+  margin-top: 20px;
+  width: 100%;
+  height: 400px;
+}
+
+.popup-details-div {
+  text-align: center;
+}
+
+.popup-details-div h1 {
+  font-size: 50px;
+}
+
+.details-list {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+}
+
+.comments-container h3 {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.comments-container form {
+  width: 70%;
+  min-width: 50%;
+  margin: 0 auto;
+}
+
+.input-group input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.button-div button{
+  margin-left: 0;
+} 
 
 footer {
   padding: 20px 100px;
