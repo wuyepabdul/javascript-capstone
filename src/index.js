@@ -40,7 +40,32 @@ const root = document.getElementById('root');
 
 const main = elementGenerator('main');
 
-const createPopup = (meal) => {
+const createComment = (popupSection)=>{
+  const data = { item_id: generateId(), username: '', comment: '' };
+
+  const nameInput =
+    popupSection.children[1].children[2].children[2].children[0].children[0];
+  const commentInput =
+    popupSection.children[1].children[2].children[2].children[1].children[0];
+  const commentBtn =
+    popupSection.children[1].children[2].children[2].children[2].children[0];
+
+  nameInput.addEventListener('change', (e) => {
+    data.username = e.target.value;
+  });
+  commentInput.addEventListener('change', (e) => {
+    data.comment = e.target.value;
+  });
+  commentBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (commentInput.value.length > 1 && nameInput.value) {
+      const response = await addComment(data)
+      if(response.status ===201) console.log('created')
+    }
+  });
+}
+
+const createPopup = async(meal) => {
   const popupSection = elementGenerator('section', 'popup-window invisible');
   const popupMarkup = ` 
     <small class='close-menu'>X</small>   
@@ -89,28 +114,7 @@ const createPopup = (meal) => {
   main.style.display = 'none';
   document.body.appendChild(popupSection);
 
-  const data = { item_id: generateId(), username: '', comment: '' };
-
-  const nameInput =
-    popupSection.children[1].children[2].children[2].children[0].children[0];
-  const commentInput =
-    popupSection.children[1].children[2].children[2].children[1].children[0];
-  const commentBtn =
-    popupSection.children[1].children[2].children[2].children[2].children[0];
-
-  nameInput.addEventListener('change', (e) => {
-    data.username = e.target.value;
-  });
-  commentInput.addEventListener('change', (e) => {
-    data.comment = e.target.value;
-  });
-  commentBtn.addEventListener('click', async (e) => {
-    e.preventDefault();
-    if (commentInput.value.length > 1 && nameInput.value) {
-      const response = await addComment(data);
-      console.log(response);
-    }
-  });
+  createComment(popupSection)
 
   const closePopup = document.querySelector('.close-menu');
   closePopup.addEventListener('click', () => {
