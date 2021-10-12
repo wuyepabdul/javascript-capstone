@@ -1,6 +1,6 @@
 import './style.css';
 import icon from './icon.svg';
-import { fetchMeals, addComment } from './api';
+import { fetchMeals, fetchMealById, addComment } from './api';
 
 const elementGenerator = (typeName, className) => {
   const element = document.createElement(typeName);
@@ -40,7 +40,7 @@ const root = document.getElementById('root');
 
 const main = elementGenerator('main');
 
-const createComment = (popupSection)=>{
+const createComment = (popupSection) => {
   const data = { item_id: generateId(), username: '', comment: '' };
 
   const nameInput =
@@ -59,13 +59,13 @@ const createComment = (popupSection)=>{
   commentBtn.addEventListener('click', async (e) => {
     e.preventDefault();
     if (commentInput.value.length > 1 && nameInput.value) {
-      const response = await addComment(data)
-      if(response.status ===201) console.log('created')
+      const response = await addComment(data);
+      if (response.status === 201) console.log('created');
     }
   });
-}
+};
 
-const createPopup = async(meal) => {
+const createPopup = async (meal, mealId) => {
   const popupSection = elementGenerator('section', 'popup-window invisible');
   const popupMarkup = ` 
     <small class='close-menu'>X</small>   
@@ -76,12 +76,12 @@ const createPopup = async(meal) => {
       <h1> ${meal.title} </h1>
       <div class="details-list">
           <ul>
-          <li>Category: Rice</li>
-          <li>Category: Rice</li>
+          <li>Category: </li>
+          <li>Country: </li>
           </ul>
           <ul>
-          <li>Category: Rice</li>
-          <li>Category: Rice</li>
+          <li>Ingredients: </li>
+          <li>Tags: </li>
           </ul>
       </div>
     </div>
@@ -114,7 +114,17 @@ const createPopup = async(meal) => {
   main.style.display = 'none';
   document.body.appendChild(popupSection);
 
-  createComment(popupSection)
+  const { meals } = await fetchMealById(mealId);
+
+  popupSection.children[1].children[1].children[1].children[0].children[0].textContent = `Category: ${meals[0].strCategory.slice(0,8)}`;
+
+  popupSection.children[1].children[1].children[1].children[0].children[1].textContent = `Region: ${meals[0].strArea.slice(0,8)}`;
+
+  popupSection.children[1].children[1].children[1].children[1].children[0].textContent = `Ingredients: ${meals[0].strIngredient1},${meals[0].strIngredient3} ...`;
+
+  popupSection.children[1].children[1].children[1].children[1].children[1].textContent = `Tags: ${meals[0].strTags.slice(0,8)}`;
+
+  createComment(popupSection);
 
   const closePopup = document.querySelector('.close-menu');
   closePopup.addEventListener('click', () => {
@@ -131,16 +141,27 @@ const displayPopup = (mainTag) => {
     price: '',
     image: '',
   };
+  // console.log('divs',divs[0].attributes[0].value)
+
+  /* for (let i = 0; i < divs.length; i += 1) {
+    const mealId = divs[i].id;
+    const response = fetchMealById(mealId)
+  } */
 
   for (let i = 0; i < divs.length; i += 1) {
     const btn = divs[i].children[2];
-    btn.addEventListener('click', (e) => {
+    btn.addEventListener('click', async (e) => {
       const mealTitle =
         e.target.parentElement.children[1].children[0].textContent;
       const imageSrc = e.target.parentElement.children[0].src;
+      const category = e.target.parentElement.parentElement;
+      const mealId = e.target.parentElement.id;
+      // console.log(category)
+      // console.log(response)
+
       mealDetails.title = mealTitle;
       mealDetails.image = imageSrc;
-      createPopup(mealDetails);
+      createPopup(mealDetails, mealId);
     });
   }
 };
@@ -148,7 +169,10 @@ const displayPopup = (mainTag) => {
 const getMeals = async () => {
   const data = await fetchMeals();
   data.meals.forEach((meal, index) => {
+    const id = data.meals[index].idMeal;
     meal = elementGenerator('section');
+    meal.setAttribute('id', `${id}`);
+
     const picture = elementGenerator('img', 'image');
     picture.src = data.meals[index].strMealThumb;
     picture.alt = 'space-image';
