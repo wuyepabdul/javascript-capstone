@@ -1,6 +1,7 @@
 import './style.css';
 import icon from './icon.svg';
 import fetchMeals from './api';
+import { postLikes, getLikes } from './likeFunctions';
 
 const elementGenerator = (typeName, className) => {
   const element = document.createElement(typeName);
@@ -127,6 +128,8 @@ const getMeals = async () => {
     picture.src = data.meals[index].strMealThumb;
     picture.alt = 'space-image';
 
+    meal.id = data.meals[index].idMeal;
+
     const likes = elementGenerator('div', 'likes');
     const paragraph = elementGenerator('p');
     paragraph.textContent = data.meals[index].strMeal;
@@ -136,7 +139,29 @@ const getMeals = async () => {
     heart.src = icon;
     heart.alt = 'heart-image';
     const like = elementGenerator('p');
-    like.textContent = 'like';
+    like.textContent = '0 like';
+
+    heart.addEventListener('click', async (e) => {
+      e.preventDefault();
+      postLikes(
+        'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/',
+        {
+          item_id: meal.id,
+        },
+      );
+
+      const prevLikes = like.textContent.split(' ')[0];
+      like.innerHTML = `${parseInt(prevLikes, 10) + 1} likes`;
+    });
+
+    const likes1 = getLikes(
+      'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/',
+    );
+
+    likes1.then((data) => {
+      console.log(data);
+      like.textContent = `${data[index].likes} likes`;
+    });
 
     likeCounter.appendChild(heart);
     likeCounter.appendChild(like);
