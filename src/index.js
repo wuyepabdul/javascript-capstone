@@ -159,7 +159,6 @@ const getMeals = async () => {
     );
 
     likes1.then((data) => {
-      console.log(data);
       like.textContent = `${data[index].likes} likes`;
     });
 
