@@ -16,7 +16,16 @@ const uList = elementGenerator('ul');
 const listOne = elementGenerator('li', 'meals');
 const linkOne = elementGenerator('a');
 linkOne.href = '#';
-linkOne.textContent = 'Meals(6)';
+
+function mealCounter() {
+  fetch('https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood')
+    .then((response) => response.json())
+    .then((data) => {
+      linkOne.textContent = `Meals (${data.meals.length})`;
+    });
+}
+mealCounter();
+
 const listTwo = elementGenerator('li');
 const linkTwo = elementGenerator('a');
 linkTwo.href = '#';
