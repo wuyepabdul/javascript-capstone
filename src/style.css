@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -14,6 +18,10 @@ header {
   top: 0;
   margin-bottom: 50px;
   background-color: #fff;
+}
+
+p {
+  text-align: center;
 }
 
 .visible {
@@ -61,6 +69,7 @@ main {
   grid-template-rows: 1fr 1fr;
   margin-top: 150px;
   margin-bottom: 60px;
+  width: 100vw;
   justify-items: center;
 }
 
@@ -81,11 +90,21 @@ section {
   flex-direction: row;
   width: 200px;
   justify-content: space-between;
-  padding: 20px 10px;
+  padding: 20px 20px;
+}
+
+.likes img {
+  width: 30px;
+}
+
+.like-counter {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  margin-left: 20px;
 }
 
 button {
-  /* margin-left: 20px; */
   margin-bottom: 30px;
   padding: 10px 10px;
   background-color: #fff;
