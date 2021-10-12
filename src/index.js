@@ -35,48 +35,13 @@ const root = document.getElementById('root');
 
 const main = elementGenerator('main');
 
-fetchMeals().then((data) => {
-  data.meals.forEach((meal, index) => {
-    meal = elementGenerator('section');
-    const picture = elementGenerator('img', 'image');
-    picture.src = data.meals[index].strMealThumb;
-    picture.alt = 'space-image';
-
-    const likes = elementGenerator('div', 'likes');
-    const paragraph = elementGenerator('p');
-    paragraph.textContent = data.meals[index].strMeal;
-
-    const likeCounter = elementGenerator('div', 'like-counter');
-    const heart = elementGenerator('img');
-    heart.src = icon;
-    heart.alt = 'heart-image';
-    const like = elementGenerator('p');
-    like.textContent = 'like';
-
-    likeCounter.appendChild(heart);
-    likeCounter.appendChild(like);
-
-    likes.appendChild(paragraph);
-    likes.appendChild(likeCounter);
-
-    const comments = elementGenerator('button');
-    comments.textContent = 'comments';
-
-    meal.appendChild(picture);
-    meal.appendChild(likes);
-    meal.appendChild(comments);
-
-    main.appendChild(meal);
-  });
-});
-
 const createPopup = (meal) => {
   const popupSection = elementGenerator('section', 'popup-window invisible');
   const popupMarkup = ` 
     <small class='close-menu'>X</small>   
     <div class='blur-background'> 
       
-      <div class="popup-img-div"><img class="meal-popup-img" src="${Image}" alt="meal" /></div>
+      <div class="popup-img-div"><img class="meal-popup-img" src="${meal.image}" alt="meal" /></div>
       <div class="popup-details-div">
       <h1> ${meal.title} </h1>
       <div class="details-list">
@@ -125,24 +90,67 @@ const createPopup = (meal) => {
   });
 };
 
-const displayPopup = (main) => {
-  const divs = main.children;
+const displayPopup =  (mainTag) => {
+  const divs =  mainTag.children
   const mealDetails = {
     title: '',
     category: '',
     price: '',
-    details: '',
+    image: '',
   };
 
   for (let i = 0; i < divs.length; i += 1) {
     const btn = divs[i].children[2];
     btn.addEventListener('click', (e) => {
       const mealTitle = e.target.parentElement.children[1].children[0].textContent;
+      const imageSrc =e.target.parentElement.children[0].src;
       mealDetails.title = mealTitle;
+      mealDetails.image = imageSrc;
       createPopup(mealDetails);
     });
   }
 };
+
+const getMeals = async ()=>{
+  const data = await fetchMeals();
+    data.meals.forEach((meal, index) => {
+    meal = elementGenerator('section');
+    const picture = elementGenerator('img', 'image');
+    picture.src = data.meals[index].strMealThumb;
+    picture.alt = 'space-image';
+
+    const likes = elementGenerator('div', 'likes');
+    const paragraph = elementGenerator('p');
+    paragraph.textContent = data.meals[index].strMeal;
+
+    const likeCounter = elementGenerator('div', 'like-counter');
+    const heart = elementGenerator('img');
+    heart.src = icon;
+    heart.alt = 'heart-image';
+    const like = elementGenerator('p');
+    like.textContent = 'like';
+
+    likeCounter.appendChild(heart);
+    likeCounter.appendChild(like);
+
+    likes.appendChild(paragraph);
+    likes.appendChild(likeCounter);
+
+    const comments = elementGenerator('button');
+    comments.textContent = 'comments';
+
+    meal.appendChild(picture);
+    meal.appendChild(likes);
+    meal.appendChild(comments);
+
+    main.appendChild(meal);
+    
+  });
+  displayPopup(main)
+}
+getMeals()
+
+
 
 listOne.appendChild(linkOne);
 listTwo.appendChild(linkTwo);
@@ -156,4 +164,4 @@ header.append(logo, navigation);
 
 root.append(header, main, footer);
 
-displayPopup(main);
+// displayPopup(main);
