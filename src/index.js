@@ -1,5 +1,4 @@
 import './style.css';
-import Image from './space.jpg';
 import icon from './icon.svg';
 import fetchMeals from './api';
 
@@ -90,8 +89,8 @@ const createPopup = (meal) => {
   });
 };
 
-const displayPopup =  (mainTag) => {
-  const divs =  mainTag.children
+const displayPopup = (mainTag) => {
+  const divs = mainTag.children;
   const mealDetails = {
     title: '',
     category: '',
@@ -103,7 +102,7 @@ const displayPopup =  (mainTag) => {
     const btn = divs[i].children[2];
     btn.addEventListener('click', (e) => {
       const mealTitle = e.target.parentElement.children[1].children[0].textContent;
-      const imageSrc =e.target.parentElement.children[0].src;
+      const imageSrc = e.target.parentElement.children[0].src;
       mealDetails.title = mealTitle;
       mealDetails.image = imageSrc;
       createPopup(mealDetails);
@@ -111,9 +110,9 @@ const displayPopup =  (mainTag) => {
   }
 };
 
-const getMeals = async ()=>{
+const getMeals = async () => {
   const data = await fetchMeals();
-    data.meals.forEach((meal, index) => {
+  data.meals.forEach((meal, index) => {
     meal = elementGenerator('section');
     const picture = elementGenerator('img', 'image');
     picture.src = data.meals[index].strMealThumb;
@@ -144,13 +143,10 @@ const getMeals = async ()=>{
     meal.appendChild(comments);
 
     main.appendChild(meal);
-    
   });
-  displayPopup(main)
-}
-getMeals()
-
-
+  displayPopup(main);
+};
+getMeals();
 
 listOne.appendChild(linkOne);
 listTwo.appendChild(linkTwo);
@@ -163,5 +159,3 @@ navigation.appendChild(uList);
 header.append(logo, navigation);
 
 root.append(header, main, footer);
-
-// displayPopup(main);
