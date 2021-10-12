@@ -1,11 +1,17 @@
 import './style.css';
 import icon from './icon.svg';
-import fetchMeals from './api';
+import { fetchMeals, addComment } from './api';
 
 const elementGenerator = (typeName, className) => {
   const element = document.createElement(typeName);
   if (className) element.className = className;
   return element;
+};
+
+const generateId = () => {
+  const random1 = Math.floor(Math.random() * 10000);
+  const random2 = Math.floor(Math.random() * 1000);
+  return random1 + random2 * 2;
 };
 
 const header = elementGenerator('header');
@@ -82,6 +88,30 @@ const createPopup = (meal) => {
   popupSection.style.display = 'block';
   main.style.display = 'none';
   document.body.appendChild(popupSection);
+
+  const data = { item_id: generateId(), username: '', comment: '' };
+
+  const nameInput =
+    popupSection.children[1].children[2].children[2].children[0].children[0];
+  const commentInput =
+    popupSection.children[1].children[2].children[2].children[1].children[0];
+  const commentBtn =
+    popupSection.children[1].children[2].children[2].children[2].children[0];
+
+  nameInput.addEventListener('change', (e) => {
+    data.username = e.target.value;
+  });
+  commentInput.addEventListener('change', (e) => {
+    data.comment = e.target.value;
+  });
+  commentBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (commentInput.value.length > 1 && nameInput.value) {
+      const response = await addComment(data);
+      console.log(response);
+    }
+  });
+
   const closePopup = document.querySelector('.close-menu');
   closePopup.addEventListener('click', () => {
     popupSection.remove();
@@ -101,7 +131,8 @@ const displayPopup = (mainTag) => {
   for (let i = 0; i < divs.length; i += 1) {
     const btn = divs[i].children[2];
     btn.addEventListener('click', (e) => {
-      const mealTitle = e.target.parentElement.children[1].children[0].textContent;
+      const mealTitle =
+        e.target.parentElement.children[1].children[0].textContent;
       const imageSrc = e.target.parentElement.children[0].src;
       mealDetails.title = mealTitle;
       mealDetails.image = imageSrc;
@@ -146,7 +177,9 @@ const getMeals = async () => {
   });
   displayPopup(main);
 };
-getMeals();
+window.addEventListener('load', () => {
+  getMeals();
+});
 
 listOne.appendChild(linkOne);
 listTwo.appendChild(linkTwo);
