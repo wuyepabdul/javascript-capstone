@@ -1,7 +1,7 @@
 import './style.css';
 import icon from './icon.svg';
-import { 
-  fetchMeals, addComment, fetchComments, fetchMealById 
+import {
+  fetchMeals, addComment, fetchComments, fetchMealById,
 } from './api';
 import { postLikes, getLikes } from './likeFunctions';
 
