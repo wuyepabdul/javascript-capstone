@@ -76,7 +76,18 @@ const getCommentsLength = async (mealId) => {
 
 const getMealComments = async (popupSection, mealId) => {
   const commentsLength = await getCommentsLength(mealId);
+  const comments = await fetchComments(mealId);
   popupSection.children[1].children[2].children[0].children[0].textContent = `Comments ${commentsLength}`;
+
+  if (commentsLength > 0) {
+    let commentMarkup = '';
+    const commentsTag = popupSection.children[1].children[2].children[0].children[1];
+    for (let i = 0; i < comments.length; i += 1) {
+      const { comment, creation_date, username } = comments[i];
+      commentMarkup += `<p> ${creation_date} ${username}: ${comment} </p>`;
+    }
+    commentsTag.innerHTML = commentMarkup;
+  }
 };
 
 const createPopup = (meal) => {
@@ -102,6 +113,7 @@ const createPopup = (meal) => {
     <div class="comments-container">
   <div class="comments-div">
     <h3></h3>
+    <div></div>
   </div>
   <h3>Add a comment</h3>
   <form>
