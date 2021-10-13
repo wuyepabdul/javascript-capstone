@@ -83,8 +83,7 @@ const getMealComments = async (popupSection, mealId) => {
     let commentMarkup = '';
     const commentsTag = popupSection.children[1].children[2].children[0].children[1];
     for (let i = 0; i < comments.length; i += 1) {
-      const { comment, creation_date, username } = comments[i];
-      commentMarkup += `<p> ${creation_date} ${username}: ${comment} </p>`;
+      commentMarkup += `<p> ${comments[i].creation_date} ${comments[i].username}: ${comments[i].comment} </p>`;
     }
     commentsTag.innerHTML = commentMarkup;
   }
