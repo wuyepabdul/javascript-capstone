@@ -63,17 +63,26 @@ const commentCreator = (popupSection, mealId) => {
   commentBtn.addEventListener('click', async (e) => {
     e.preventDefault();
     if (nameInput.value.length > 1 && commentInput.value.length > 1) {
-      console.log('created', data);
       const response = await addComment(data);
-      if (response.status === 201) console.log('created',response);
+      if (response.status === 201) console.log('created', response);
     }
   });
 };
 
-const getMealComments = async (mealId)=>{
-  const response = await fetchComments(mealId)
-  console.log(response)
-}
+const getCommentsLength = async (mealId) => {
+  const comments = await fetchComments(mealId);
+  if (comments.error) {
+    if (comments.error.message === "'item_id' not found.") return 0;
+  } else {
+    return comments.length;
+  }
+};
+
+const getMealComments = async (popupSection, mealId) => {
+  const commentsLength = await getCommentsLength(mealId);
+  const response = await fetchComments(mealId);
+  popupSection.children[1].children[2].children[0].children[0].textContent = `Comments ${commentsLength}`;
+};
 
 const createPopup = (meal) => {
   const popupSection = elementGenerator('section', 'popup-window invisible');
@@ -97,7 +106,7 @@ const createPopup = (meal) => {
     </div>
     <div class="comments-container">
   <div class="comments-div">
-    <h3>Comments (3)</h3>
+    <h3></h3>
   </div>
   <h3>Add a comment</h3>
   <form>
@@ -121,7 +130,7 @@ const createPopup = (meal) => {
 `;
   popupSection.innerHTML = popupMarkup;
   commentCreator(popupSection, meal.id);
-  getMealComments(meal.id)
+  getMealComments(popupSection, meal.id);
 
   popupSection.style.display = 'block';
   main.style.display = 'none';
