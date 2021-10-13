@@ -1,4 +1,4 @@
-export default fetchComments = async () => {
+const fetchComments = async () => {
   const result = Promise.resolve(
     new Array(10).fill({
       comment: 'Awesome meal',
@@ -8,3 +8,5 @@ export default fetchComments = async () => {
   );
   return result;
 };
+
+export default fetchComments;

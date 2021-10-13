@@ -27,8 +27,7 @@ export const fetchComments = async (itemId) => {
 
 export const fetchMealById = async (mealId) => {
   const response = await fetch(
-    `${process.env.MEAL_API}/lookup.php?i=${mealId}`
+    `${process.env.MEAL_API}/lookup.php?i=${mealId}`,
   );
   return response.json();
 };
-

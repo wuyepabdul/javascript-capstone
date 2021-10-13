@@ -1,6 +1,8 @@
 import './style.css';
 import icon from './icon.svg';
-import { fetchMeals, addComment, fetchComments, fetchMealById } from './api';
+import { 
+  fetchMeals, addComment, fetchComments, fetchMealById 
+} from './api';
 import { postLikes, getLikes } from './likeFunctions';
 
 const elementGenerator = (typeName, className) => {
@@ -100,8 +102,7 @@ const getMealComments = async (popupSection, mealId) => {
 
   if (commentsLength > 0) {
     let commentMarkup = '';
-    const commentsTag =
-      popupSection.children[1].children[2].children[0].children[2];
+    const commentsTag = popupSection.children[1].children[2].children[0].children[2];
     for (let i = 0; i < comments.length; i += 1) {
       commentMarkup += `<p> ${comments[i].creation_date} ${comments[i].username}: ${comments[i].comment} </p>`;
     }
@@ -118,7 +119,6 @@ const displayMealDetails = async (popupSection, mealId) => {
   popupSection.children[1].children[1].children[1].children[1].children[0].textContent = `Ingredients: ${meals[0].strIngredient1}, ${meals[0].strIngredient2} ...`;
 
   popupSection.children[1].children[1].children[1].children[1].children[1].textContent = `Tags: ${meals[0].strTags}`;
-  console.log(meals);
 };
 
 const createPopup = (meal) => {
