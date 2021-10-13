@@ -70,9 +70,8 @@ const getCommentsLength = async (mealId) => {
   if (comments.error) {
     const length = 0;
     if (comments.error.message === "'item_id' not found.") return length;
-  } 
+  }
   return comments.length;
-  
 };
 
 const getMealComments = async (popupSection, mealId) => {
