@@ -46,12 +46,9 @@ const main = elementGenerator('main');
 
 const commentCreator = (popupSection, mealId) => {
   const data = { item_id: mealId, username: '', comment: '' };
-  const nameInput =
-    popupSection.children[1].children[2].children[2].children[0].children[0];
-  const commentInput =
-    popupSection.children[1].children[2].children[2].children[1].children[0];
-  const commentBtn =
-    popupSection.children[1].children[2].children[2].children[2].children[0];
+  const nameInput = popupSection.children[1].children[2].children[2].children[0].children[0];
+  const commentInput = popupSection.children[1].children[2].children[2].children[1].children[0];
+  const commentBtn = popupSection.children[1].children[2].children[2].children[2].children[0];
 
   nameInput.addEventListener('change', (e) => {
     data.username = e.target.value;
@@ -192,7 +189,7 @@ const getMeals = async () => {
         'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/',
         {
           item_id: meal.id,
-        }
+        },
       );
 
       const prevLikes = like.textContent.split(' ')[0];
