@@ -1,6 +1,6 @@
 import './style.css';
 import icon from './icon.svg';
-import { fetchMeals, addComment, fetchComments } from './api';
+import { fetchMeals, addComment, fetchComments, fetchMealById } from './api';
 import { postLikes, getLikes } from './likeFunctions';
 
 const elementGenerator = (typeName, className) => {
@@ -54,12 +54,9 @@ const main = elementGenerator('main');
 
 const commentCreator = (popupSection, mealId) => {
   const data = { item_id: mealId, username: '', comment: '' };
-  const nameInput =
-    popupSection.children[1].children[2].children[2].children[0].children[0];
-  const commentInput =
-    popupSection.children[1].children[2].children[2].children[1].children[0];
-  const commentBtn =
-    popupSection.children[1].children[2].children[2].children[2].children[0];
+  const nameInput = popupSection.children[1].children[2].children[2].children[0].children[0];
+  const commentInput = popupSection.children[1].children[2].children[2].children[1].children[0];
+  const commentBtn = popupSection.children[1].children[2].children[2].children[2].children[0];
 
   const alertDiv = popupSection.children[1].children[2].children[0].children[0];
 
@@ -112,6 +109,18 @@ const getMealComments = async (popupSection, mealId) => {
   }
 };
 
+const displayMealDetails = async (popupSection, mealId) => {
+  const { meals } = await fetchMealById(mealId);
+  popupSection.children[1].children[1].children[1].children[0].children[0].textContent = `Region: ${meals[0].strArea}`;
+
+  popupSection.children[1].children[1].children[1].children[0].children[1].textContent = `Category: ${meals[0].strCategory}`;
+
+  popupSection.children[1].children[1].children[1].children[1].children[0].textContent = `Ingredients: ${meals[0].strIngredient1}, ${meals[0].strIngredient2} ...`;
+
+  popupSection.children[1].children[1].children[1].children[1].children[1].textContent = `Tags: ${meals[0].strTags}`;
+  console.log(meals);
+};
+
 const createPopup = (meal) => {
   const popupSection = elementGenerator('section', 'popup-window invisible');
   const popupMarkup = ` 
@@ -161,6 +170,7 @@ const createPopup = (meal) => {
   popupSection.innerHTML = popupMarkup;
   commentCreator(popupSection, meal.id);
   getMealComments(popupSection, meal.id);
+  displayMealDetails(popupSection, meal.id);
 
   popupSection.style.display = 'block';
   main.style.display = 'none';
@@ -177,16 +187,13 @@ const displayPopup = (mainTag) => {
   const mealDetails = {
     id: '',
     title: '',
-    category: '',
-    price: '',
     image: '',
   };
 
   for (let i = 0; i < divs.length; i += 1) {
     const btn = divs[i].children[2];
     btn.addEventListener('click', (e) => {
-      const mealTitle =
-        e.target.parentElement.children[1].children[0].textContent;
+      const mealTitle = e.target.parentElement.children[1].children[0].textContent;
       const imageSrc = e.target.parentElement.children[0].src;
       mealDetails.id = e.target.parentElement.id;
       mealDetails.title = mealTitle;
@@ -223,7 +230,7 @@ const getMeals = async () => {
         'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/',
         {
           item_id: meal.id,
-        }
+        },
       );
 
       const prevLikes = like.textContent.split(' ')[0];
@@ -231,7 +238,7 @@ const getMeals = async () => {
     });
 
     const likes1 = getLikes(
-      'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/'
+      'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/',
     );
 
     likes1.then((data) => {
