@@ -24,6 +24,23 @@ p {
   text-align: center;
 }
 
+.alert {
+  display: none;
+  width: 50%;
+  margin: 0 auto 30px auto;
+  text-align: center;
+  padding: 20px;
+  font-weight: bold;
+}
+
+.success {
+  background-color: rgb(157, 245, 157);
+}
+
+.error {
+  background-color: rgb(238, 130, 130);
+}
+
 .visible {
   display: block;
 }

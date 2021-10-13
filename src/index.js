@@ -9,6 +9,14 @@ const elementGenerator = (typeName, className) => {
   return element;
 };
 
+const dismisAlert = (alertDiv) => {
+  setTimeout(() => {
+    alertDiv.classList.remove('success', 'error');
+    alertDiv.classList.add('invisible');
+    window.location.reload();
+  }, 5000);
+};
+
 const header = elementGenerator('header');
 const logo = elementGenerator('div', 'logo');
 logo.textContent = 'Restaurant logo';
@@ -46,9 +54,14 @@ const main = elementGenerator('main');
 
 const commentCreator = (popupSection, mealId) => {
   const data = { item_id: mealId, username: '', comment: '' };
-  const nameInput = popupSection.children[1].children[2].children[2].children[0].children[0];
-  const commentInput = popupSection.children[1].children[2].children[2].children[1].children[0];
-  const commentBtn = popupSection.children[1].children[2].children[2].children[2].children[0];
+  const nameInput =
+    popupSection.children[1].children[2].children[2].children[0].children[0];
+  const commentInput =
+    popupSection.children[1].children[2].children[2].children[1].children[0];
+  const commentBtn =
+    popupSection.children[1].children[2].children[2].children[2].children[0];
+
+  const alertDiv = popupSection.children[1].children[2].children[0].children[0];
 
   nameInput.addEventListener('change', (e) => {
     data.username = e.target.value;
@@ -59,8 +72,17 @@ const commentCreator = (popupSection, mealId) => {
 
   commentBtn.addEventListener('click', async (e) => {
     e.preventDefault();
+
     if (nameInput.value.length > 1 && commentInput.value.length > 1) {
-      await addComment(data);
+      const response = await addComment(data);
+      if (response.status === 201) {
+        nameInput.value = '';
+        commentInput.value = '';
+        alertDiv.innerHTML = 'Comment Created Successfully';
+        alertDiv.classList.remove('invisible');
+        alertDiv.classList.add('success', 'visible');
+        dismisAlert(alertDiv);
+      }
     }
   });
 };
@@ -77,11 +99,12 @@ const getCommentsLength = async (mealId) => {
 const getMealComments = async (popupSection, mealId) => {
   const commentsLength = await getCommentsLength(mealId);
   const comments = await fetchComments(mealId);
-  popupSection.children[1].children[2].children[0].children[0].textContent = `Comments ${commentsLength}`;
+  popupSection.children[1].children[2].children[0].children[1].textContent = `Comments ${commentsLength}`;
 
   if (commentsLength > 0) {
     let commentMarkup = '';
-    const commentsTag = popupSection.children[1].children[2].children[0].children[1];
+    const commentsTag =
+      popupSection.children[1].children[2].children[0].children[2];
     for (let i = 0; i < comments.length; i += 1) {
       commentMarkup += `<p> ${comments[i].creation_date} ${comments[i].username}: ${comments[i].comment} </p>`;
     }
@@ -111,6 +134,7 @@ const createPopup = (meal) => {
     </div>
     <div class="comments-container">
   <div class="comments-div">
+  <div class='alert'> </div>
     <h3></h3>
     <div></div>
   </div>
@@ -161,7 +185,8 @@ const displayPopup = (mainTag) => {
   for (let i = 0; i < divs.length; i += 1) {
     const btn = divs[i].children[2];
     btn.addEventListener('click', (e) => {
-      const mealTitle = e.target.parentElement.children[1].children[0].textContent;
+      const mealTitle =
+        e.target.parentElement.children[1].children[0].textContent;
       const imageSrc = e.target.parentElement.children[0].src;
       mealDetails.id = e.target.parentElement.id;
       mealDetails.title = mealTitle;
@@ -198,7 +223,7 @@ const getMeals = async () => {
         'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/',
         {
           item_id: meal.id,
-        },
+        }
       );
 
       const prevLikes = like.textContent.split(' ')[0];
@@ -206,7 +231,7 @@ const getMeals = async () => {
     });
 
     const likes1 = getLikes(
-      'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/',
+      'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/'
     );
 
     likes1.then((data) => {
