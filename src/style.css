@@ -192,6 +192,12 @@ button:hover {
   cursor: pointer;
 }
 
+.close-menu:hover {
+  background: green;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .popup-window li {
   list-style: none;
 }
