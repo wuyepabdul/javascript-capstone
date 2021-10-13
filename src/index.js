@@ -70,9 +70,9 @@ const getCommentsLength = async (mealId) => {
   if (comments.error) {
     const length = 0;
     if (comments.error.message === "'item_id' not found.") return length;
-  } else {
-    return comments.length;
-  }
+  } 
+  return comments.length;
+  
 };
 
 const getMealComments = async (popupSection, mealId) => {
@@ -151,8 +151,7 @@ const displayPopup = (mainTag) => {
   for (let i = 0; i < divs.length; i += 1) {
     const btn = divs[i].children[2];
     btn.addEventListener('click', (e) => {
-      const mealTitle =
-        e.target.parentElement.children[1].children[0].textContent;
+      const mealTitle = e.target.parentElement.children[1].children[0].textContent;
       const imageSrc = e.target.parentElement.children[0].src;
       mealDetails.id = e.target.parentElement.id;
       mealDetails.title = mealTitle;
