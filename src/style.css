@@ -4,8 +4,21 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: MyFont;
+  src: url(./HFF\ Fire\ Dancer.ttf);
+}
+
+@font-face {
+  font-family: Croissant;
+  src: url(./CroissantOne-Regular.ttf);
+}
+
 body {
   overflow-x: hidden;
+  font-family: 'Croissant', sans-serif;
+  background-color: rgb(45,32,19);
+  color: #fff;
 }
 
 header {
@@ -13,16 +26,18 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100vw;
+  height: 12vh;
   padding: 10px 250px;
   position: fixed;
   top: 0;
   margin-bottom: 50px;
-  background-color: #fff;
+  background-color: #23180D;
+  box-shadow: 1px 1px 2px green;
 }
 
-p {
+/* p {
   text-align: center;
-}
+} */
 
 .visible {
   display: block;
@@ -33,14 +48,8 @@ p {
 }
 
 .logo {
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-  align-items: center;
-  border: 2px solid #000;
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
+  width: 150px;
+  color: yellow;
 }
 
 nav ul {
@@ -53,9 +62,16 @@ nav ul li {
   margin-left: 100px;
 }
 
-nav ul li a {
-  color: #000;
+nav ul li a, p {
+  color: #fff;
   text-decoration: none;
+  background: -webkit-linear-gradient(orange, yellow, green);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav ul li a: hover {
+  text-decoration: underline;
 }
 
 .meals {
@@ -67,7 +83,7 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  margin-top: 150px;
+  margin-top: 100px;
   margin-bottom: 60px;
   width: 100vw;
   justify-items: center;
@@ -76,6 +92,7 @@ main {
 .image {
   height: 200px;
   width: 200px;
+  border-radius: 10px;
 }
 
 section {
@@ -90,7 +107,7 @@ section {
   flex-direction: row;
   width: 200px;
   justify-content: space-between;
-  padding: 20px 20px;
+  padding: 20px 0;
 }
 
 .likes img {
@@ -104,23 +121,43 @@ section {
   margin-left: 20px;
 }
 
-button {
-  margin-bottom: 30px;
-  padding: 10px 10px;
-  background-color: #fff;
-  border: 2px solid black;
-  box-shadow: 5px 5px 2px 1px black;
-  font-size: 0.8em;
+.like-counter p {
+  font-size: 12px;
+  width: 60px;
+  margin-top: 8px;
+}
+
+.heart {
   cursor: pointer;
   align-self: center;
+}
+
+button {
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 30px;
+  color: yellow;
+  margin-left: 20px;
+  padding: 5px 10px;
+  background: black;
+  border: 1px solid yellow;
+  box-shadow: 1px 1px 1px green;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
 }
 
 .popup-window {
   position: relative;
   width: 65%;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 20px;
   backdrop-filter: blur(4px);
+  border: 2px solid #000;
+  box-shadow: 1px 1px 1px yellow;
+}
+
+.meal-popup-img {
+  width: 50%;
 }
 
 .close-menu {
@@ -178,11 +215,14 @@ textarea {
 }
 
 footer {
-  padding: 20px 100px;
-  border-top: 2px solid black;
+  font-family: 'Poppins', sans-serif;
+  padding: 10px 100px;
+  border-top: 2px solid #23180D;
   position: fixed;
   bottom: 0;
   width: 100vw;
-  background-color: #fff;
   margin-top: 100px;
+  background-color: #23180D;
+  box-shadow: 2px 2px 8px green;
+  color: yellow;
 }

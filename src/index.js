@@ -1,5 +1,7 @@
 import './style.css';
 import icon from './icon.svg';
+import logoImage from './logo.svg';
+import Like from './Like.svg';
 import fetchMeals from './api';
 import { postLikes, getLikes } from './likeFunctions';
 
@@ -10,8 +12,9 @@ const elementGenerator = (typeName, className) => {
 };
 
 const header = elementGenerator('header');
-const logo = elementGenerator('div', 'logo');
-logo.textContent = 'Restaurant logo';
+const logo = elementGenerator('img', 'logo');
+logo.src = logoImage;
+logo.alt = 'restaurant-logo';
 const navigation = elementGenerator('nav');
 const uList = elementGenerator('ul');
 const listOne = elementGenerator('li', 'meals');
@@ -30,12 +33,12 @@ mealCounter();
 const listTwo = elementGenerator('li');
 const linkTwo = elementGenerator('a');
 linkTwo.href = '#';
-linkTwo.textContent = 'Planets';
+linkTwo.textContent = 'Vegetarian';
 
 const listThree = elementGenerator('li');
 const linkThree = elementGenerator('a');
 linkThree.href = '#';
-linkThree.textContent = 'Races';
+linkThree.textContent = 'Cakes';
 
 const footer = elementGenerator('footer');
 footer.textContent = 'Created By Abdul & Willy under CC licence';
@@ -135,11 +138,11 @@ const getMeals = async () => {
     paragraph.textContent = data.meals[index].strMeal;
 
     const likeCounter = elementGenerator('div', 'like-counter');
-    const heart = elementGenerator('img');
-    heart.src = icon;
+    const heart = elementGenerator('img', 'heart');
+    heart.src = Like;
     heart.alt = 'heart-image';
     const like = elementGenerator('p');
-    like.textContent = '0 like';
+    like.textContent = '0 likes';
 
     heart.addEventListener('click', async (e) => {
       e.preventDefault();
@@ -169,7 +172,7 @@ const getMeals = async () => {
     likes.appendChild(likeCounter);
 
     const comments = elementGenerator('button');
-    comments.textContent = 'comments';
+    comments.textContent = 'Comments';
 
     meal.appendChild(picture);
     meal.appendChild(likes);
