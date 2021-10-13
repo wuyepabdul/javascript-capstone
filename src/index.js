@@ -1,12 +1,22 @@
 import './style.css';
 import icon from './icon.svg';
-import fetchMeals from './api';
+import {
+  fetchMeals, addComment, fetchComments, fetchMealById,
+} from './api';
 import { postLikes, getLikes } from './likeFunctions';
 
 const elementGenerator = (typeName, className) => {
   const element = document.createElement(typeName);
   if (className) element.className = className;
   return element;
+};
+
+const dismisAlert = (alertDiv) => {
+  setTimeout(() => {
+    alertDiv.classList.remove('success', 'error');
+    alertDiv.classList.add('invisible');
+    window.location.reload();
+  }, 5000);
 };
 
 const header = elementGenerator('header');
@@ -44,6 +54,73 @@ const root = document.getElementById('root');
 
 const main = elementGenerator('main');
 
+const commentCreator = (popupSection, mealId) => {
+  const data = { item_id: mealId, username: '', comment: '' };
+  const nameInput = popupSection.children[1].children[2].children[2].children[0].children[0];
+  const commentInput = popupSection.children[1].children[2].children[2].children[1].children[0];
+  const commentBtn = popupSection.children[1].children[2].children[2].children[2].children[0];
+
+  const alertDiv = popupSection.children[1].children[2].children[0].children[0];
+
+  nameInput.addEventListener('change', (e) => {
+    data.username = e.target.value;
+  });
+  commentInput.addEventListener('change', (e) => {
+    data.comment = e.target.value;
+  });
+
+  commentBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    if (nameInput.value.length > 1 && commentInput.value.length > 1) {
+      const response = await addComment(data);
+      if (response.status === 201) {
+        nameInput.value = '';
+        commentInput.value = '';
+        alertDiv.innerHTML = 'Comment Created Successfully';
+        alertDiv.classList.remove('invisible');
+        alertDiv.classList.add('success', 'visible');
+        dismisAlert(alertDiv);
+      }
+    }
+  });
+};
+
+const getCommentsLength = async (mealId) => {
+  const comments = await fetchComments(mealId);
+  if (comments.error) {
+    const length = 0;
+    if (comments.error.message === "'item_id' not found.") return length;
+  }
+  return comments.length;
+};
+
+const getMealComments = async (popupSection, mealId) => {
+  const commentsLength = await getCommentsLength(mealId);
+  const comments = await fetchComments(mealId);
+  popupSection.children[1].children[2].children[0].children[1].textContent = `Comments ${commentsLength}`;
+
+  if (commentsLength > 0) {
+    let commentMarkup = '';
+    const commentsTag = popupSection.children[1].children[2].children[0].children[2];
+    for (let i = 0; i < comments.length; i += 1) {
+      commentMarkup += `<p> ${comments[i].creation_date} ${comments[i].username}: ${comments[i].comment} </p>`;
+    }
+    commentsTag.innerHTML = commentMarkup;
+  }
+};
+
+const displayMealDetails = async (popupSection, mealId) => {
+  const { meals } = await fetchMealById(mealId);
+  popupSection.children[1].children[1].children[1].children[0].children[0].textContent = `Region: ${meals[0].strArea}`;
+
+  popupSection.children[1].children[1].children[1].children[0].children[1].textContent = `Category: ${meals[0].strCategory}`;
+
+  popupSection.children[1].children[1].children[1].children[1].children[0].textContent = `Ingredients: ${meals[0].strIngredient1}, ${meals[0].strIngredient2} ...`;
+
+  popupSection.children[1].children[1].children[1].children[1].children[1].textContent = `Tags: ${meals[0].strTags}`;
+};
+
 const createPopup = (meal) => {
   const popupSection = elementGenerator('section', 'popup-window invisible');
   const popupMarkup = ` 
@@ -66,7 +143,9 @@ const createPopup = (meal) => {
     </div>
     <div class="comments-container">
   <div class="comments-div">
-    <h3>Comments (3)</h3>
+  <div class='alert'> </div>
+    <h3></h3>
+    <div></div>
   </div>
   <h3>Add a comment</h3>
   <form>
@@ -89,6 +168,10 @@ const createPopup = (meal) => {
 </div>
 `;
   popupSection.innerHTML = popupMarkup;
+  commentCreator(popupSection, meal.id);
+  getMealComments(popupSection, meal.id);
+  displayMealDetails(popupSection, meal.id);
+
   popupSection.style.display = 'block';
   main.style.display = 'none';
   document.body.appendChild(popupSection);
@@ -102,9 +185,8 @@ const createPopup = (meal) => {
 const displayPopup = (mainTag) => {
   const divs = mainTag.children;
   const mealDetails = {
+    id: '',
     title: '',
-    category: '',
-    price: '',
     image: '',
   };
 
@@ -113,6 +195,7 @@ const displayPopup = (mainTag) => {
     btn.addEventListener('click', (e) => {
       const mealTitle = e.target.parentElement.children[1].children[0].textContent;
       const imageSrc = e.target.parentElement.children[0].src;
+      mealDetails.id = e.target.parentElement.id;
       mealDetails.title = mealTitle;
       mealDetails.image = imageSrc;
       createPopup(mealDetails);

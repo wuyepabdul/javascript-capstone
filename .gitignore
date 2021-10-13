@@ -3,4 +3,5 @@ coverage
 .hintrc
 .styelintrc.json
 .eslintrc.json
-.env
+backup1.js
+backup2.js
