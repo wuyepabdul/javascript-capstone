@@ -5,7 +5,7 @@ export const fetchMeals = async () => {
 };
 
 export const addComment = async (data) => {
-  console.log('api called')
+  console.log('api called');
   const url = `${process.env.INVOLVEMENT_API}/${process.env.APP_ID}/comments`;
   const response = await fetch(url, {
     method: 'POST',
@@ -23,7 +23,14 @@ export const addComment = async (data) => {
 export const fetchComments = async (itemId) => {
   const url = `${process.env.INVOLVEMENT_API}/${process.env.APP_ID}/comments?item_id=${itemId}`;
   const response = await fetch(url);
+  console.log(response);
   return response.json();
 };
 
-
+/* export const fetchMealById = async (mealId) => {
+  const response = await fetch(
+    `${process.env.MEAL_API}/lookup.php?i=${mealId}`
+  );
+  return response.json();
+};
+ */

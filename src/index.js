@@ -1,6 +1,6 @@
 import './style.css';
 import icon from './icon.svg';
-import { fetchMeals, addComment } from './api';
+import { fetchMeals, addComment, fetchComments } from './api';
 import { postLikes, getLikes } from './likeFunctions';
 
 const elementGenerator = (typeName, className) => {
@@ -70,6 +70,11 @@ const commentCreator = (popupSection, mealId) => {
   });
 };
 
+const getMealComments = async (mealId)=>{
+  const response = await fetchComments(mealId)
+  console.log(response)
+}
+
 const createPopup = (meal) => {
   const popupSection = elementGenerator('section', 'popup-window invisible');
   const popupMarkup = ` 
@@ -116,6 +121,8 @@ const createPopup = (meal) => {
 `;
   popupSection.innerHTML = popupMarkup;
   commentCreator(popupSection, meal.id);
+  getMealComments(meal.id)
+
   popupSection.style.display = 'block';
   main.style.display = 'none';
   document.body.appendChild(popupSection);
