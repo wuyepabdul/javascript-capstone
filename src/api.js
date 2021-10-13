@@ -20,4 +20,10 @@ export const addComment = async (data) => {
   return response;
 };
 
+export const fetchComments = async (itemId) => {
+  const url = `${process.env.INVOLVEMENT_API}/${process.env.APP_ID}/comments?item_id=${itemId}`;
+  const response = await fetch(url);
+  return response.json();
+};
+
 
