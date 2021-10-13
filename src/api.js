@@ -1,6 +1,23 @@
-const fetchMeals = async () => {
-  const response = await fetch('https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood');
+export const fetchMeals = async () => {
+  const url = `${process.env.MEAL_API}/filter.php?c=Seafood`;
+  const response = await fetch(url);
   return response.json();
 };
 
-export default fetchMeals;
+export const addComment = async (data) => {
+  console.log('api called')
+  const url = `${process.env.INVOLVEMENT_API}/${process.env.APP_ID}/comments`;
+  const response = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      item_id: data.item_id,
+      username: data.username,
+      comment: data.comment,
+    }),
+    headers: { 'Content-type': 'application/json' },
+  });
+
+  return response;
+};
+
+

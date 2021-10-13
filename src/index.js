@@ -1,6 +1,6 @@
 import './style.css';
 import icon from './icon.svg';
-import fetchMeals from './api';
+import { fetchMeals, addComment } from './api';
 import { postLikes, getLikes } from './likeFunctions';
 
 const elementGenerator = (typeName, className) => {
@@ -43,6 +43,32 @@ footer.textContent = 'Created By Abdul & Willy under CC licence';
 const root = document.getElementById('root');
 
 const main = elementGenerator('main');
+
+const commentCreator = (popupSection, mealId) => {
+  const data = { item_id: mealId, username: '', comment: '' };
+  const nameInput =
+    popupSection.children[1].children[2].children[2].children[0].children[0];
+  const commentInput =
+    popupSection.children[1].children[2].children[2].children[1].children[0];
+  const commentBtn =
+    popupSection.children[1].children[2].children[2].children[2].children[0];
+
+  nameInput.addEventListener('change', (e) => {
+    data.username = e.target.value;
+  });
+  commentInput.addEventListener('change', (e) => {
+    data.comment = e.target.value;
+  });
+
+  commentBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (nameInput.value.length > 1 && commentInput.value.length > 1) {
+      console.log('created', data);
+      const response = await addComment(data);
+      if (response.status === 201) console.log('created',response);
+    }
+  });
+};
 
 const createPopup = (meal) => {
   const popupSection = elementGenerator('section', 'popup-window invisible');
@@ -89,6 +115,7 @@ const createPopup = (meal) => {
 </div>
 `;
   popupSection.innerHTML = popupMarkup;
+  commentCreator(popupSection, meal.id);
   popupSection.style.display = 'block';
   main.style.display = 'none';
   document.body.appendChild(popupSection);
@@ -102,6 +129,7 @@ const createPopup = (meal) => {
 const displayPopup = (mainTag) => {
   const divs = mainTag.children;
   const mealDetails = {
+    id: '',
     title: '',
     category: '',
     price: '',
@@ -111,8 +139,10 @@ const displayPopup = (mainTag) => {
   for (let i = 0; i < divs.length; i += 1) {
     const btn = divs[i].children[2];
     btn.addEventListener('click', (e) => {
-      const mealTitle = e.target.parentElement.children[1].children[0].textContent;
+      const mealTitle =
+        e.target.parentElement.children[1].children[0].textContent;
       const imageSrc = e.target.parentElement.children[0].src;
+      mealDetails.id = e.target.parentElement.id;
       mealDetails.title = mealTitle;
       mealDetails.image = imageSrc;
       createPopup(mealDetails);
@@ -147,7 +177,7 @@ const getMeals = async () => {
         'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/',
         {
           item_id: meal.id,
-        },
+        }
       );
 
       const prevLikes = like.textContent.split(' ')[0];
@@ -155,7 +185,7 @@ const getMeals = async () => {
     });
 
     const likes1 = getLikes(
-      'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/',
+      'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/'
     );
 
     likes1.then((data) => {
