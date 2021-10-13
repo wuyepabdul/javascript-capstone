@@ -5,7 +5,6 @@ export const fetchMeals = async () => {
 };
 
 export const addComment = async (data) => {
-  console.log('api called');
   const url = `${process.env.INVOLVEMENT_API}/${process.env.APP_ID}/comments`;
   const response = await fetch(url, {
     method: 'POST',

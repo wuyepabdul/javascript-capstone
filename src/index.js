@@ -46,9 +46,12 @@ const main = elementGenerator('main');
 
 const commentCreator = (popupSection, mealId) => {
   const data = { item_id: mealId, username: '', comment: '' };
-  const nameInput = popupSection.children[1].children[2].children[2].children[0].children[0];
-  const commentInput = popupSection.children[1].children[2].children[2].children[1].children[0];
-  const commentBtn = popupSection.children[1].children[2].children[2].children[2].children[0];
+  const nameInput =
+    popupSection.children[1].children[2].children[2].children[0].children[0];
+  const commentInput =
+    popupSection.children[1].children[2].children[2].children[1].children[0];
+  const commentBtn =
+    popupSection.children[1].children[2].children[2].children[2].children[0];
 
   nameInput.addEventListener('change', (e) => {
     data.username = e.target.value;
@@ -60,8 +63,7 @@ const commentCreator = (popupSection, mealId) => {
   commentBtn.addEventListener('click', async (e) => {
     e.preventDefault();
     if (nameInput.value.length > 1 && commentInput.value.length > 1) {
-      const response = await addComment(data);
-      if (response.status === 201) console.log('created', response);
+      await addComment(data);
     }
   });
 };
@@ -69,7 +71,8 @@ const commentCreator = (popupSection, mealId) => {
 const getCommentsLength = async (mealId) => {
   const comments = await fetchComments(mealId);
   if (comments.error) {
-    if (comments.error.message === "'item_id' not found.") return '0';
+    const length = 0;
+    if (comments.error.message === "'item_id' not found.") return length;
   } else {
     return comments.length;
   }
@@ -151,7 +154,8 @@ const displayPopup = (mainTag) => {
   for (let i = 0; i < divs.length; i += 1) {
     const btn = divs[i].children[2];
     btn.addEventListener('click', (e) => {
-      const mealTitle = e.target.parentElement.children[1].children[0].textContent;
+      const mealTitle =
+        e.target.parentElement.children[1].children[0].textContent;
       const imageSrc = e.target.parentElement.children[0].src;
       mealDetails.id = e.target.parentElement.id;
       mealDetails.title = mealTitle;
@@ -196,7 +200,7 @@ const getMeals = async () => {
     });
 
     const likes1 = getLikes(
-      'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/'
+      'https://us-central1-involvement-api.cloudfunctions.net/capstoneApi/apps/d0e1ntHbrVs5EbhAIJhd/likes/',
     );
 
     likes1.then((data) => {
