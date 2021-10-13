@@ -77,6 +77,7 @@ const getCommentsLength = async (mealId) => {
 const getMealComments = async (popupSection, mealId) => {
   const commentsLength = await getCommentsLength(mealId);
   const comments = await fetchComments(mealId);
+  console.log('comments',comments)
   popupSection.children[1].children[2].children[0].children[0].textContent = `Comments ${commentsLength}`;
 
   if (commentsLength > 0) {
