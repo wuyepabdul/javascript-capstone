@@ -206,7 +206,6 @@ const displayPopup = (mainTag) => {
 
 const getMeals = async () => {
   const data = await fetchMeals();
-  console.log(data);
   data.meals.forEach((meal, index) => {
     meal = elementGenerator('section');
     const picture = elementGenerator('img', 'image');

@@ -152,7 +152,7 @@ button {
   color: yellow;
   margin-left: 20px;
   padding: 5px 10px;
-  background: #23180d;;
+  background: #23180d;
   border: 1px solid yellow;
   box-shadow: 1px 1px 1px green;
   cursor: pointer;
@@ -266,8 +266,8 @@ button:hover {
 .comments-div div p {
   margin-left: 25%;
   background: #fff;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-weight: bold;
 }
 
@@ -281,7 +281,7 @@ textarea {
   margin: 10px 0;
 }
 
-input:focus, 
+input:focus,
 textarea:focus {
   outline-width: 0;
 }
