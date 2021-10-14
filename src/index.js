@@ -16,7 +16,6 @@ const dismisAlert = (alertDiv) => {
   setTimeout(() => {
     alertDiv.classList.remove('success', 'error');
     alertDiv.classList.add('invisible');
-    window.location.reload();
   }, 5000);
 };
 
@@ -55,12 +54,41 @@ const root = document.getElementById('root');
 
 const main = elementGenerator('main');
 
+const getCommentsLength = async (mealId) => {
+  const comments = await fetchComments(mealId);
+  if (comments.error) {
+    const length = 0;
+    if (comments.error.message === "'item_id' not found.") return length;
+  }
+  return comments.length;
+};
+
+const setMealCommentsInStore = async (mealId) => {
+  const comments = await fetchComments(mealId);
+  localStorage.setItem('comments', JSON.stringify(comments));
+};
+
+const getMealComments = async (popupSection, mealId) => {
+  await setMealCommentsInStore(mealId);
+  const commentsLength = await getCommentsLength(mealId);
+  const comments = JSON.parse(localStorage.getItem('comments'));
+  popupSection.children[1].children[2].children[0].children[1].textContent = `Comments ( ${commentsLength} )`;
+
+  if (commentsLength > 0) {
+    let commentMarkup = '';
+    const commentsTag = popupSection.children[1].children[2].children[0].children[2];
+    for (let i = 0; i < comments.length; i += 1) {
+      commentMarkup += `<p> ${comments[i].creation_date} ${comments[i].username} : ${comments[i].comment} </p>`;
+    }
+    commentsTag.innerHTML = commentMarkup;
+  }
+};
+
 const commentCreator = (popupSection, mealId) => {
   const data = { item_id: mealId, username: '', comment: '' };
   const nameInput = popupSection.children[1].children[2].children[2].children[0].children[0];
   const commentInput = popupSection.children[1].children[2].children[2].children[1].children[0];
   const commentBtn = popupSection.children[1].children[2].children[2].children[2].children[0];
-
   const alertDiv = popupSection.children[1].children[2].children[0].children[0];
 
   nameInput.addEventListener('change', (e) => {
@@ -76,39 +104,17 @@ const commentCreator = (popupSection, mealId) => {
     if (nameInput.value.length > 1 && commentInput.value.length > 1) {
       const response = await addComment(data);
       if (response.status === 201) {
+        setMealCommentsInStore(mealId);
         nameInput.value = '';
         commentInput.value = '';
         alertDiv.innerHTML = 'Comment Created Successfully';
+        getMealComments(popupSection, mealId);
         alertDiv.classList.remove('invisible');
         alertDiv.classList.add('success', 'visible');
         dismisAlert(alertDiv);
       }
     }
   });
-};
-
-const getCommentsLength = async (mealId) => {
-  const comments = await fetchComments(mealId);
-  if (comments.error) {
-    const length = 0;
-    if (comments.error.message === "'item_id' not found.") return length;
-  }
-  return comments.length;
-};
-
-const getMealComments = async (popupSection, mealId) => {
-  const commentsLength = await getCommentsLength(mealId);
-  const comments = await fetchComments(mealId);
-  popupSection.children[1].children[2].children[0].children[1].textContent = `Comments ( ${commentsLength} )`;
-
-  if (commentsLength > 0) {
-    let commentMarkup = '';
-    const commentsTag = popupSection.children[1].children[2].children[0].children[2];
-    for (let i = 0; i < comments.length; i += 1) {
-      commentMarkup += `<p> ${comments[i].creation_date} ${comments[i].username} : ${comments[i].comment} </p>`;
-    }
-    commentsTag.innerHTML = commentMarkup;
-  }
 };
 
 const displayMealDetails = async (popupSection, mealId) => {
@@ -211,9 +217,7 @@ const getMeals = async () => {
     const picture = elementGenerator('img', 'image');
     picture.src = data.meals[index].strMealThumb;
     picture.alt = 'space-image';
-
     meal.id = data.meals[index].idMeal;
-
     const likes = elementGenerator('div', 'likes');
     const paragraph = elementGenerator('p');
     paragraph.textContent = data.meals[index].strMeal;
@@ -233,7 +237,6 @@ const getMeals = async () => {
           item_id: meal.id,
         },
       );
-
       const prevLikes = like.textContent.split(' ')[0];
       like.innerHTML = `${parseInt(prevLikes, 10) + 1} likes`;
     });
