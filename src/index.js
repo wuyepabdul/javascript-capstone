@@ -3,8 +3,8 @@ import Logo from './logo.svg';
 import likeImage from './Like.svg';
 import {
   fetchMeals, addComment, fetchComments, fetchMealById,
-} from './api.js';
-import { postLikes, getLikes } from './likeFunctions.js';
+} from './api';
+import { postLikes, getLikes } from './likeFunctions';
 
 const elementGenerator = (typeName, className) => {
   const element = document.createElement(typeName);
