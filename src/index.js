@@ -1,5 +1,6 @@
 import './style.css';
-import icon from './icon.svg';
+import Logo from './logo.svg';
+import likeImage from './Like.svg';
 import {
   fetchMeals, addComment, fetchComments, fetchMealById,
 } from './api';
@@ -20,8 +21,8 @@ const dismisAlert = (alertDiv) => {
 };
 
 const header = elementGenerator('header');
-const logo = elementGenerator('div', 'logo');
-logo.textContent = 'Restaurant logo';
+const logo = elementGenerator('img', 'logo');
+logo.src = Logo;
 const navigation = elementGenerator('nav');
 const uList = elementGenerator('ul');
 const listOne = elementGenerator('li', 'meals');
@@ -40,12 +41,12 @@ mealCounter();
 const listTwo = elementGenerator('li');
 const linkTwo = elementGenerator('a');
 linkTwo.href = '#';
-linkTwo.textContent = 'Planets';
+linkTwo.textContent = 'Vegetarian';
 
 const listThree = elementGenerator('li');
 const linkThree = elementGenerator('a');
 linkThree.href = '#';
-linkThree.textContent = 'Races';
+linkThree.textContent = 'Cakes';
 
 const footer = elementGenerator('footer');
 footer.textContent = 'Created By Abdul & Willy under CC licence';
@@ -98,13 +99,13 @@ const getCommentsLength = async (mealId) => {
 const getMealComments = async (popupSection, mealId) => {
   const commentsLength = await getCommentsLength(mealId);
   const comments = await fetchComments(mealId);
-  popupSection.children[1].children[2].children[0].children[1].textContent = `Comments ${commentsLength}`;
+  popupSection.children[1].children[2].children[0].children[1].textContent = `Comments ( ${commentsLength} )`;
 
   if (commentsLength > 0) {
     let commentMarkup = '';
     const commentsTag = popupSection.children[1].children[2].children[0].children[2];
     for (let i = 0; i < comments.length; i += 1) {
-      commentMarkup += `<p> ${comments[i].creation_date} ${comments[i].username}: ${comments[i].comment} </p>`;
+      commentMarkup += `<p> ${comments[i].creation_date} ${comments[i].username} : ${comments[i].comment} </p>`;
     }
     commentsTag.innerHTML = commentMarkup;
   }
@@ -124,7 +125,7 @@ const displayMealDetails = async (popupSection, mealId) => {
 const createPopup = (meal) => {
   const popupSection = elementGenerator('section', 'popup-window invisible');
   const popupMarkup = ` 
-    <small class='close-menu'>X</small>   
+    <small class='close-menu'>&times;</small>   
     <div class='blur-background'> 
       
       <div class="popup-img-div"><img class="meal-popup-img" src="${meal.image}" alt="meal" /></div>
@@ -150,7 +151,7 @@ const createPopup = (meal) => {
   <h3>Add a comment</h3>
   <form>
     <div class="input-group">
-      <input type="text" class="nameInput" placeholder="Your name" />
+      <input type="text" id="nameInput" placeholder="Your name" required/>
     </div>
     <div class="input-group">
       <textarea
@@ -159,7 +160,7 @@ const createPopup = (meal) => {
         cols="30"
         rows="10"
         placeholder="Your insights"
-      ></textarea>
+      required></textarea>
     </div>
     <div class=''button-div>
     <button type='submit' class='submit-comment-btn'> Comment </button>
@@ -219,7 +220,7 @@ const getMeals = async () => {
 
     const likeCounter = elementGenerator('div', 'like-counter');
     const heart = elementGenerator('img');
-    heart.src = icon;
+    heart.src = likeImage;
     heart.alt = 'heart-image';
     const like = elementGenerator('p');
     like.textContent = '0 like';
@@ -252,7 +253,7 @@ const getMeals = async () => {
     likes.appendChild(likeCounter);
 
     const comments = elementGenerator('button');
-    comments.textContent = 'comments';
+    comments.textContent = 'Comments';
 
     meal.appendChild(picture);
     meal.appendChild(likes);
