@@ -1,0 +1,7 @@
+node_modules
+coverage
+.hintrc
+.styelintrc.json
+.eslintrc.json
+backup1.js
+backup2.js
