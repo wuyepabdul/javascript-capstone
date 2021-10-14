@@ -12,6 +12,9 @@ JavaScript Capstone is a meal website that displays list of various meals and th
 
 [Live Demo Link](https://wuyepabdul.github.io/javascript-capstone/)
 
+## Video Presentation
+[Watch video here ](https://youtu.be/KWPftebBs4Q)
+
 ## Built With
 
 - CSS
