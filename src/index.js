@@ -3,8 +3,8 @@ import Logo from './logo.svg';
 import likeImage from './Like.svg';
 import {
   fetchMeals, addComment, fetchComments, fetchMealById,
-} from './api';
-import { postLikes, getLikes } from './likeFunctions';
+} from './api.js';
+import { postLikes, getLikes } from './likeFunctions.js';
 
 const elementGenerator = (typeName, className) => {
   const element = document.createElement(typeName);
@@ -66,10 +66,10 @@ const getCommentsLength = async (mealId) => {
 const setMealCommentsInStore = async (mealId) => {
   const comments = await fetchComments(mealId);
   localStorage.setItem('comments', JSON.stringify(comments));
-}
+};
 
 const getMealComments = async (popupSection, mealId) => {
- await setMealCommentsInStore(mealId);
+  await setMealCommentsInStore(mealId);
   const commentsLength = await getCommentsLength(mealId);
   const comments = JSON.parse(localStorage.getItem('comments'));
   popupSection.children[1].children[2].children[0].children[1].textContent = `Comments ( ${commentsLength} )`;
