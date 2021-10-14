@@ -15,7 +15,6 @@
 }
 
 body {
-  overflow-x: hidden;
   font-family: 'Croissant', sans-serif;
   background-color: rgb(45, 32, 19);
   color: #fff;
@@ -165,14 +164,26 @@ button:hover {
 }
 
 .popup-window {
-  position: relative;
+  position: fixed;
+  left: 17.5%;
   width: 65%;
-  margin: 20px auto;
+  top: 10px;
+  bottom: 10px;
   padding: 20px;
   backdrop-filter: blur(4px);
   background-color: rgb(45, 32, 19);
   border: 2px solid rgba(255, 255, 0, 0.3);
   box-shadow: 1px 1px 1px rgba(0, 128, 0, 0.5);
+  animation-name: modalSlideUp;
+  animation-duration: 1s;
+  max-height: calc(100vh);
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.popup-window::-webkit-scrollbar {
+  display: none;
 }
 
 .meal-popup-img {
@@ -318,4 +329,14 @@ footer {
   background-color: #23180d;
   box-shadow: 2px 2px 8px green;
   color: yellow;
+}
+
+@keyframes modalSlideUp {
+  0% {
+    transform: translateY(1500px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }
